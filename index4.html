@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Form Validation</title>
+  <style>
+    .error {
+      color: red;
+      font-size: 0.9em;
+    }
+    .success {
+      color: green;
+      font-size: 1em;
+      margin-top: 10px;
+    }
+    button:disabled {
+      background-color: gray;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <form id="registrationForm">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    <span class="error" id="usernameError"></span>
+    <br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password">
+    <span class="error" id="passwordError"></span>
+    <br><br>
+
+    <label for="confirmPassword">Confirm Password:</label>
+    <input type="password" id="confirmPassword" name="confirmPassword">
+    <span class="error" id="confirmPasswordError"></span>
+    <br><br>
+
+    <button type="submit" id="registerButton" disabled>Register</button>
+  </form>
+
+  <p class="success" id="successMessage" style="display: none;">User registered successfully!</p>
+
+  <script>
+    const form = document.getElementById('registrationForm');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const registerButton = document.getElementById('registerButton');
+    const successMessage = document.getElementById('successMessage');
+
+    // Function to validate form and enable/disable button
+    function validateForm() {
+      let isValid = true;
+
+      // Clear previous errors
+      document.getElementById('usernameError').textContent = '';
+      document.getElementById('passwordError').textContent = '';
+      document.getElementById('confirmPasswordError').textContent = '';
+
+      // Validate username
+      const username = usernameInput.value;
+      if (username.trim() === '') {
+        document.getElementById('usernameError').textContent = 'required';
+        isValid = false;
+      }
+
+      // Validate password
+      const password = passwordInput.value;
+      if (password.trim() === '') {
+        document.getElementById('passwordError').textContent = 'required';
+        isValid = false;
+      }
+
+      // Validate confirm password
+      const confirmPassword = confirmPasswordInput.value;
+      if (confirmPassword.trim() === '') {
+        document.getElementById('confirmPasswordError').textContent = 'required';
+        isValid = false;
+      }
+
+      // Check if passwords match
+      if (password !== confirmPassword && confirmPassword.trim() !== '') {
+        document.getElementById('confirmPasswordError').textContent = 'Passwords do not match';
+        isValid = false;
+      }
+
+      // Enable or disable the register button
+      registerButton.disabled = !isValid;
+    }
+
+    // Attach event listeners to inputs for real-time validation
+    usernameInput.addEventListener('input', validateForm);
+    passwordInput.addEventListener('input', validateForm);
+    confirmPasswordInput.addEventListener('input', validateForm);
+
+    // Show success message on form submission
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent the default form submission
+      validateForm(); // Ensure validation before proceeding
+
+      if (!registerButton.disabled) {
+        successMessage.style.display = 'block'; // Show the success message
+        form.reset(); // Reset the form
+        registerButton.disabled = true; // Disable the register button again
+      }
+    });
+  </script>
+</body>
+</html>

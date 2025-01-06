@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Highlight Long Words</title>
+  <style>
+    .highlight {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+  <h2>Paragraph Example</h2>
+  <p id="text">
+    Lorem ipsum dolor sit, amet consectetur adipisicing elit. Pariatur cumque sit eveniet, nostrum nisi sed aspernatur rerum ut quibusdam quas voluptatum, deleniti dolorum accusantium consequatur, quod corporis autem enim iusto?
+  </p>
+
+  <script>
+    // Function to highlight words over 8 characters long
+    function highlightLongWords() {
+      const paragraph = document.getElementById('text');
+      const words = paragraph.innerHTML.split(' ');
+
+      // Map through words and highlight if length > 8
+      const highlightedText = words
+        .map(word => word.length > 8 ? '<span class="highlight">${word}</span> ': word)
+        .join(' ');
+
+      // Update paragraph content with highlighted words
+      paragraph.innerHTML = highlightedText;
+    }
+
+    // Call the function to highlight words
+    highlightLongWords();
+  </script>
+</body>
+</html>
